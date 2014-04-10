@@ -19,7 +19,7 @@ _(node)
 As a return value you get an array of the DOM-Selection 
 
 ```Javascript
-[<div class="class">DOM Element</div>]
+[<div class="class">DOM Element<\/div>]
 ```
 
 ## Extending engine
