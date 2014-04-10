@@ -104,9 +104,18 @@
       return engine.selection;
     }
   };
-	
 	// EXTENDING engine
 	//
+	// each loop through selectors
+	engine.fn.each = function( fn ){
+		if( typeof(fn) === 'function' ){
+		  this.forEach(function(el, i){
+		    fn(el, i);
+		  });
+		}
+		return this;
+	};
+	
 	// parent
 	engine.fn.parent = function(selector){
 		var parentElement = el.parentNode;
@@ -119,11 +128,9 @@
 		return parentElement;
 	};
 	
-	// each loop through selectors
-  engine.fn.each = function( fn ){
-    this.forEach(function(el, i){
-      fn(el, i);
-    });
-  };
-
+	
 }(window, window.document));
+
+engine.fn.test = function(){
+	return this;
+};
