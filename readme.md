@@ -5,7 +5,7 @@ The code is deliberately kept small and only optimises selections lightly around
 
 ## Use engine to select
 
-You can use engine() or the shortcut _()
+You can use `engine(selector)` or the shortcut `_(selector)` to get a selection of DOM-Elements. 
 
 ```javascript
 engine('.class')
@@ -15,3 +15,20 @@ _('div > li') (anything that querySelectorAll eats)
 var node = document.querySelectorAll('.class')[0];
 _(node)
 ```
+
+## Extending engine
+
+Engine is build to easily add functionality like `parent()` or `each()` to a selection of DOM elements.
+
+To extend engine simply add your function to `engine.fn` like so:
+```javascript
+	engine.fn.each = function( fn ){
+		if( typeof(fn) === 'function' ){
+		  this.forEach(function(el, i){
+		    fn(el, i);
+		  });
+		}
+		return this; // return this to enable chaining
+	};
+``
+ 
