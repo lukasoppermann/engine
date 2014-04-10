@@ -16,6 +16,12 @@ var node = document.querySelectorAll('.class')[0];
 _(node)
 ```
 
+As a return value you get an array of the DOM-Selection 
+
+```Javascript
+[<div class="class">DOM Element</div>]
+```
+
 ## Extending engine
 
 Engine is build to easily add functionality like `parent()` or `each()` to a selection of DOM elements.
