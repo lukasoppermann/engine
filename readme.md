@@ -5,8 +5,10 @@ The code is deliberately kept small and only optimises selections lightly around
 
 ## Use engine to select
 
+You can use engine() or the shortcut _()
+
 ```javascript
-_('.class') or engine('.class')
+engine('.class')
 _('#id')
 _('div > li') (anything that querySelectorAll eats)
 
