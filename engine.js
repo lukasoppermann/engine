@@ -93,14 +93,22 @@
           engine.fn[ i ] = selector[ i ];
         }
       }
+			// keep chain going
+			return engine.fn.chain();
+
+    },
+		
+		// chain
+		chain: function()
+		{
       // add fns to array
       for (var key in engine.fn) {
         if (engine.fn.hasOwnProperty(key))
           engine.selection[key] = engine.fn[key];
       }
-
-      return engine.selection;
-    }
+			// return selection
+			return engine.selection;
+		}
   };
 
 	// EXTENDING engine
@@ -118,20 +126,45 @@
 	
 	// parent
 	engine.fn.parent = function(selector){
-		var p = [];
+		engine.selection = [];
 	  this.forEach(function(el, i){
 			el = el.parentNode;
 			if( selector !== undefined ){
 			  while(el.parentNode !== null && !el.matches(selector) && el.nodeName !== 'BODY'){
 			    el = el.parentNode;
 			  }
-				el.matches(selector) ? p.push(el) : '';
+				el.matches(selector) ? engine.selection.push(el) : '';
 			}else if(el !== null){
-				p.push(el);
+				engine.selection.push(el);
 			}
 		});
-		this.selection = p;
-		return this.selection;
+		// keep chain going
+		return engine.fn.chain();
 	};
+	
+	// children
+	engine.fn.children = function(selector){
+		var c = [];
+	  this.forEach(function(el, i){
 
+		});
+		return engine.fn.chain();
+	};
+	
+	// addClass
+	engine.fn.addClass = function(classes){
+		// 	  this.forEach(function(el, i){
+		// 
+		// });
+		return this;
+	};
+	
+	// children
+	engine.fn.removeClass = function(classes){
+	  this.forEach(function(el, i){
+
+		});
+		return this;
+	};
+	
 }(window, window.document));
