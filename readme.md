@@ -16,41 +16,35 @@ var node = document.querySelectorAll('.class')[0];
 _(node)
 ```
 
-<<<<<<< HEAD
-=======
 As a return value you get an array of the DOM-Selection 
 
 ```Javascript
 [<div class="class">DOM Element</div>]
 ```
 
->>>>>>> master
+You can use engine with the few build in methods (if you did not delete them, which you can do if you do not use them) or you own extensions like this.
+
+```Javascript
+_('div').each(function(){ 
+  // do something 
+}).yourMethod(variable);
+```
+
+As long as you keep the chaining ability going you should be fine.
+
 ## Extending engine
 
 Engine is build to easily add functionality like `parent()` or `each()` to a selection of DOM elements.
 
 To extend engine simply add your function to `engine.fn` like so:
 ```javascript
-<<<<<<< HEAD
-	engine.fn.each = function( fn ){
-		if( typeof(fn) === 'function' ){
-		  this.forEach(function(el, i){
-		    fn(el, i);
-		  });
-		}
-		return this; // return this to enable chaining
-	};
-``
- 
-=======
 engine.fn.each = function( fn ){
 	if( typeof(fn) === 'function' ){
 	  this.forEach(function(el, i){
 	    fn(el, i);
 	  });
 	}
-	return this; // return this to enable chaining
+	return engine.fn.chain(); // keep chain up
 };
 ```
  
->>>>>>> master
