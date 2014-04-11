@@ -46,8 +46,7 @@
   // selection engine
 	var instance = null;
 	function engine( selector, context ){
-		if ( !instance )
-		{
+		if ( !instance ){
     	instance = new engine.fn.init(selector, context);
 		}
 		return instance.init(selector, context);
@@ -106,7 +105,7 @@
 
 	// EXTENDING engine
 	// any of these can be deleted
-	//
+
 	// each loop through selectors
 	engine.fn.each = function( fn ){
 		if( typeof(fn) === 'function' ){
@@ -119,14 +118,20 @@
 	
 	// parent
 	engine.fn.parent = function(selector){
-		var parentElement = el.parentNode;
-		if( parentElement !== null )
-		{
-		  while (!parentElement.matches(selector) && parentElement.nodeName !== 'BODY'){
-		    parentElement = parentElement.parentNode;
-		  }
-		}
-		return parentElement;
+		var p = [];
+	  this.forEach(function(el, i){
+			el = el.parentNode;
+			if( selector !== undefined ){
+			  while(el.parentNode !== null && !el.matches(selector) && el.nodeName !== 'BODY'){
+			    el = el.parentNode;
+			  }
+				el.matches(selector) ? p.push(el) : '';
+			}else if(el !== null){
+				p.push(el);
+			}
+		});
+		this.selection = p;
+		return this.selection;
 	};
 
 }(window, window.document));
