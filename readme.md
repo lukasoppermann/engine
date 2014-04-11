@@ -16,12 +16,22 @@ var node = document.querySelectorAll('.class')[0];
 _(node)
 ```
 
+<<<<<<< HEAD
+=======
+As a return value you get an array of the DOM-Selection 
+
+```Javascript
+[<div class="class">DOM Element</div>]
+```
+
+>>>>>>> master
 ## Extending engine
 
 Engine is build to easily add functionality like `parent()` or `each()` to a selection of DOM elements.
 
 To extend engine simply add your function to `engine.fn` like so:
 ```javascript
+<<<<<<< HEAD
 	engine.fn.each = function( fn ){
 		if( typeof(fn) === 'function' ){
 		  this.forEach(function(el, i){
@@ -32,3 +42,15 @@ To extend engine simply add your function to `engine.fn` like so:
 	};
 ``
  
+=======
+engine.fn.each = function( fn ){
+	if( typeof(fn) === 'function' ){
+	  this.forEach(function(el, i){
+	    fn(el, i);
+	  });
+	}
+	return this; // return this to enable chaining
+};
+```
+ 
+>>>>>>> master

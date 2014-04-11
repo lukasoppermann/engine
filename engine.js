@@ -50,20 +50,24 @@
 	//
 	
   // selection engine
+	var instance = null;
 	function engine( selector, context ){
-    return new engine.fn.init(selector, context);
+    if( ! instance ) {
+      instance = new engine.fn.select();
+    }
+    return instance.select(selector, context);
   };
   // expose engine
   window.engine = window._ = engine;
   // set prototype
   engine.fn = engine.prototype = {
     version: 0.1,
-    //init
-    init: function(selector, context)
+    // select
+    select: function(selector, context)
     {
+			engine.selection = [];
       context = context || document;
-      engine.selection = [];
-
+			
       if( !selector ){
         return engine.fn;
       }
