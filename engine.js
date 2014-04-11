@@ -45,12 +45,12 @@
   // set prototype
   engine.fn = engine.prototype = {
     version: 0.1,
+		selection: [],
     //init
     init: function(selector, context)
     {
       context = context || document;
-      engine.selection = [];
-
+			
       if( !selector ){
         return engine.fn;
       }
