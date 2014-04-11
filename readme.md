@@ -44,7 +44,7 @@ engine.fn.each = function( fn ){
 	    fn(el, i);
 	  });
 	}
-	return this; // return this to enable chaining
+	return engine.fn.chain(); // keep chain up
 };
 ```
  

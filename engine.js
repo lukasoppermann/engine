@@ -1,4 +1,11 @@
-// Selector engine
+/*
+ * Engine
+ *
+ * @description: Paste in place easily extendable selector engine
+ *
+ * Copyright 2014, Lukas Oppermann
+ * Released under the MIT license.
+ */
 // IE8+
 (function( window, document, undefined ) {
 	// set to strict in closure to not break other stuff
@@ -37,18 +44,22 @@
 	//
 	
   // selection engine
+	var instance = null;
 	function engine( selector, context ){
-    return new engine.fn.init(selector, context);
+		if ( !instance ){
+    	instance = new engine.fn.init(selector, context);
+		}
+		return instance.init(selector, context);
   };
   // expose engine
   window.engine = window._ = engine;
   // set prototype
   engine.fn = engine.prototype = {
     version: 0.1,
-		selection: [],
     //init
     init: function(selector, context)
     {
+			engine.selection = [];
       context = context || document;
 			
       if( !selector ){
@@ -82,18 +93,78 @@
           engine.fn[ i ] = selector[ i ];
         }
       }
+			// keep chain going
+			return engine.fn.chain();
+
+    },
+		
+		// chain
+		chain: function()
+		{
       // add fns to array
       for (var key in engine.fn) {
         if (engine.fn.hasOwnProperty(key))
           engine.selection[key] = engine.fn[key];
       }
-
-      return engine.selection;
-    }
+			// return selection
+			return engine.selection;
+		}
   };
+
+	// EXTENDING engine
+	// any of these can be deleted
+
+	// each loop through selectors
+	engine.fn.each = function( fn ){
+		if( typeof(fn) === 'function' ){
+		  this.forEach(function(el, i){
+		    fn(el, i);
+		  });
+		}
+		return this;
+	};
 	
-  engine.fn.get = function(n){
-		return engine.selection[n];
-  };
+	// parent
+	engine.fn.parent = function(selector){
+		engine.selection = [];
+	  this.forEach(function(el, i){
+			el = el.parentNode;
+			if( selector !== undefined ){
+			  while(el.parentNode !== null && !el.matches(selector) && el.nodeName !== 'BODY'){
+			    el = el.parentNode;
+			  }
+				el.matches(selector) ? engine.selection.push(el) : '';
+			}else if(el !== null){
+				engine.selection.push(el);
+			}
+		});
+		// keep chain going
+		return engine.fn.chain();
+	};
+	
+	// children
+	engine.fn.children = function(selector){
+		var c = [];
+	  this.forEach(function(el, i){
 
+		});
+		return engine.fn.chain();
+	};
+	
+	// addClass
+	engine.fn.addClass = function(classes){
+		// 	  this.forEach(function(el, i){
+		// 
+		// });
+		return this;
+	};
+	
+	// children
+	engine.fn.removeClass = function(classes){
+	  this.forEach(function(el, i){
+
+		});
+		return this;
+	};
+	
 }(window, window.document));
