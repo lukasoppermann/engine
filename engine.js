@@ -1,9 +1,18 @@
+/*
+ * Engine
+ *
+ * @description: Paste in place easily extendable selector engine
+ *
+ * Copyright 2014, Lukas Oppermann
+ * Released under the MIT license.
+ */
+// IE8+
 (function( window, document, undefined ) {
 	// set to strict in closure to not break other stuff
   'use strict';
 	// POLYFILLS
 	if (!document.querySelectorAll) {
-		document.querySelectorAll = function (selectors) {
+	  document.querySelectorAll = function (selectors) {
 	    var style = document.createElement('style'), elements = [], element;
 	    document.documentElement.firstChild.appendChild(style);
 	    document._qsa = [];
@@ -32,40 +41,21 @@
       return this.replace(/^\s+|\s+$/g, '');
     };
   }
-	if (window.Element){
-		(function(ElementPrototype) {
-			ElementPrototype.matches = ElementPrototype.matchesSelector =
-	    ElementPrototype.matchesSelector ||
-			ElementPrototype.webkitMatchesSelector ||
-			ElementPrototype.mozMatchesSelector ||
-			ElementPrototype.msMatchesSelector ||
-			ElementPrototype.oMatchesSelector ||
-			function (selector) {
-	      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
-				while (nodes[++i] && nodes[i] !== this);
-				return !!nodes[i];
-			};
-		})(window.Element.prototype);
-	}
 	//
 	
   // selection engine
-	var instance = null;
 	function engine( selector, context ){
-    if( ! instance ) {
-      instance = new engine.fn.select();
-    }
-    return instance.select(selector, context);
+    return new engine.fn.init(selector, context);
   };
   // expose engine
   window.engine = window._ = engine;
   // set prototype
   engine.fn = engine.prototype = {
     version: 0.1,
-    // select
-    select: function(selector, context)
+		selection: [],
+    //init
+    init: function(selector, context)
     {
-			engine.selection = [];
       context = context || document;
 			
       if( !selector ){
@@ -109,7 +99,10 @@
     }
   };
 	
+<<<<<<< Local Changes
+<<<<<<< Local Changes
 	// EXTENDING engine
+	// any of these can be deleted
 	//
 	// each loop through selectors
 	engine.fn.each = function( fn ){
@@ -134,8 +127,16 @@
 	};
 	
 	
-}(window, window.document));
+=======
+  engine.fn.get = function(n){
+		return engine.selection[n];
+  };
 
-engine.fn.test = function(){
-	return this;
-};
+>>>>>>> External Changes
+=======
+  engine.fn.get = function(n){
+		return engine.selection[n];
+  };
+
+>>>>>>> External Changes
+}(window, window.document));
