@@ -44,18 +44,23 @@
 	//
 	
   // selection engine
+	var instance = null;
 	function engine( selector, context ){
-    return new engine.fn.init(selector, context);
+		if ( !instance )
+		{
+    	instance = new engine.fn.init(selector, context);
+		}
+		return instance.init(selector, context);
   };
   // expose engine
   window.engine = window._ = engine;
   // set prototype
   engine.fn = engine.prototype = {
     version: 0.1,
-		selection: [],
     //init
     init: function(selector, context)
     {
+			engine.selection = [];
       context = context || document;
 			
       if( !selector ){
@@ -98,9 +103,7 @@
       return engine.selection;
     }
   };
-	
-<<<<<<< Local Changes
-<<<<<<< Local Changes
+
 	// EXTENDING engine
 	// any of these can be deleted
 	//
@@ -125,18 +128,5 @@
 		}
 		return parentElement;
 	};
-	
-	
-=======
-  engine.fn.get = function(n){
-		return engine.selection[n];
-  };
 
->>>>>>> External Changes
-=======
-  engine.fn.get = function(n){
-		return engine.selection[n];
-  };
-
->>>>>>> External Changes
 }(window, window.document));
