@@ -22,6 +22,16 @@ As a return value you get an array of the DOM-Selection
 [<div class="class">DOM Element</div>]
 ```
 
+You can use engine with the few build in methods (if you did not delete them, which you can do if you do not use them) or you own extensions like this.
+
+```Javascript
+_('div').each(function(){ 
+  // do something 
+}).yourMethod(variable);
+```
+
+As long as you keep the chaining ability going you should be fine.
+
 ## Extending engine
 
 Engine is build to easily add functionality like `parent()` or `each()` to a selection of DOM elements.
