@@ -27,7 +27,6 @@
 		font-family: "Courier New";
 	}
 	</style>
-	<script type="text/javascript" charset="utf-8" src="engine.js"></script>
 </head>
 <body>
 <div id="editor" contentEditable=true></div>
@@ -42,4 +41,12 @@
 <div id="console">
 </div>
 </body>
+	<script type="text/javascript" charset="utf-8" src="engine.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	_('#editor').each(function(el){
+		el.addEventListener("keydown", function(){
+			_('#console')[0].innerHTML = eval(_('#editor')[0].innerHTML).toString();
+		}, false);
+	});
+	</script>
 </html>

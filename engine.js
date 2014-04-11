@@ -71,10 +71,10 @@
         var idx = selector.indexOf(' ');
         // get id
         if( idx === -1 && selector[0] === '#'){
-            engine.selection[0] = document.getElementById(selector.slice(1));
+					engine.selection[0] = document.getElementById(selector.slice(1));
 				// get class	
         } else if( idx === -1 && selector[0] === '.' ){
-          engine.selection = document.getElementsByClassName(selector.slice(1));
+          engine.selection = context.getElementsByClassName(selector.slice(1));
 				// else
 				}else{
           selector = context.querySelectorAll(selector);
@@ -118,7 +118,7 @@
 	engine.fn.each = function( fn ){
 		if( typeof(fn) === 'function' ){
 		  this.forEach(function(el, i){
-		    fn(el, i);
+				fn(el, i);
 		  });
 		}
 		return this;
@@ -167,4 +167,4 @@
 		return this;
 	};
 	
-}(window, window.document));
+}(window, document));
