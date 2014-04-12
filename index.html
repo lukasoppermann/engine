@@ -45,7 +45,7 @@
 	<script type="text/javascript" charset="utf-8">
 	_('#editor').each(function(el){
 		el.addEventListener("keydown", function(){
-			_('#console')[0].innerHTML = eval(_('#editor')[0].innerHTML).toString();
+			_('#console')[0].innerHTML = JSON.stringify(eval(_('#editor')[0].innerHTML));
 		}, false);
 	});
 	</script>
