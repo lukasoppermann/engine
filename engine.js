@@ -6,7 +6,6 @@
  * Copyright 2014, Lukas Oppermann
  * Released under the MIT license.
  */
-// IE8+
 (function( window, document, undefined ) {
 	// set to strict in closure to not break other stuff
   'use strict';
