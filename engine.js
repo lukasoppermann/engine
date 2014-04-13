@@ -121,8 +121,7 @@
     },
 		
 		// chain
-		chain: function()
-		{
+		chain: function(){
       // add fns to array
       for (var key in engine.fn) {
         if (engine.fn.hasOwnProperty(key))
@@ -140,7 +139,7 @@
 	engine.fn.each = function( fn ){
 		if( typeof(fn) === 'function' ){
 		  this.forEach(function(el, i){
-				fn(el, i);
+				fn.call(el,el, i);
 		  });
 		}
 		return this;
