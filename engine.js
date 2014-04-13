@@ -170,9 +170,18 @@
 	
 	// children
 	engine.fn.removeClass = function(classes){
-	  this.forEach(function(el, i){
-
-		});
+		if( classes !== undefined && classes.trim().length > 0 ){
+      classes = classes.split(' ');			
+			this.forEach(function(el, i){
+        for (var c = classes.length; c--;){
+          if (el.classList){
+            el.classList.remove(classes[c]);
+          }else{
+						el.className = el.classes.replace(new RegExp('(^| )' + classes[c].join('|') + '( |$)', 'gi'), ' ');
+          }
+        }
+			});
+		}
 		return this;
 	};
 	
