@@ -36,6 +36,21 @@
 	    return document.querySelectorAll(classNames);
 	  };
 	}
+	if (window.Element){
+		(function(ElementPrototype) {
+			ElementPrototype.matches = ElementPrototype.matchesSelector =
+	    ElementPrototype.matchesSelector ||
+			ElementPrototype.webkitMatchesSelector ||
+			ElementPrototype.mozMatchesSelector ||
+			ElementPrototype.msMatchesSelector ||
+			ElementPrototype.oMatchesSelector ||
+			function (selector) {
+	      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
+				while (nodes[++i] && nodes[i] !== this);
+				return !!nodes[i];
+			};
+		})(window.Element.prototype);
+	}
   if (!String.prototype.trim) {
     String.prototype.trim = function () {
       return this.replace(/^\s+|\s+$/g, '');
@@ -124,8 +139,8 @@
 		return this;
 	};
 	
-	// parent
-	engine.fn.parent = function(selector){
+	// parents
+	engine.fn.parents = function(selector){
 		engine.selection = [];
 	  this.forEach(function(el, i){
 			el = el.parentNode;
@@ -133,9 +148,11 @@
 			  while(el.parentNode !== null && !el.matches(selector) && el.nodeName !== 'BODY'){
 			    el = el.parentNode;
 			  }
-				el.matches(selector) ? engine.selection.push(el) : '';
+				el.matches(selector) && engine.selection.indexOf(el) === -1 ? engine.selection.push(el) : '';
 			}else if(el !== null){
-				engine.selection.push(el);
+				if(engine.selection.indexOf(el) === -1){
+					engine.selection.push(el);
+				}
 			}
 		});
 		// keep chain going
@@ -143,27 +160,68 @@
 	};
 	
 	// children
-	engine.fn.children = function(selector){
-		var c = [];
-	  this.forEach(function(el, i){
-
+	engine.fn.children = function(selector, maxLvl){
+		engine.selection = [];
+	  this.forEach(function(el){
+      var children = el.children, level = 0,
+			findChild = function( children ){
+        if( children !== undefined && (maxLvl === undefined || maxLvl === false || maxLvl > level ) )
+        {
+          level++;
+          for(var i = 0; i < children.length; i++ ){
+            if(selector === undefined || selector === false || children[i].matches(selector)){
+              children[i].prototype = {
+                depth : level
+              };
+							// check if child is in array
+							if(engine.selection.indexOf(children[i]) === -1){
+              	engine.selection.push(children[i]);
+							}
+            }
+            findChild(children[i].children);
+          }
+          level--;
+        }else{
+          level--;
+          return;
+        }
+      };
+      findChild(children);
 		});
 		return engine.fn.chain();
 	};
 	
 	// addClass
 	engine.fn.addClass = function(classes){
-		// 	  this.forEach(function(el, i){
-		// 
-		// });
+		if( classes !== undefined && classes.trim().length > 0 ){
+      classes = classes.split(' ');			
+			this.forEach(function(el, i){
+        for (var c = classes.length; c--;){
+          if (el.classList){
+            el.classList.add(classes[c]);
+          }else{
+            el.className += ' ' + classes[c];
+          }
+        }
+			});
+		}
 		return this;
 	};
 	
-	// children
+	// removeClass
 	engine.fn.removeClass = function(classes){
-	  this.forEach(function(el, i){
-
-		});
+		if( classes !== undefined && classes.trim().length > 0 ){
+      classes = classes.split(' ');			
+			this.forEach(function(el, i){
+        for (var c = classes.length; c--;){
+          if (el.classList){
+            el.classList.remove(classes[c]);
+          }else{
+						el.className = el.classes.replace(new RegExp('(^| )' + classes[c].join('|') + '( |$)', 'gi'), ' ');
+          }
+        }
+			});
+		}
 		return this;
 	};
 	
