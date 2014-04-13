@@ -74,13 +74,21 @@
     //init
     init: function(selector, context)
     {
+			// if no selector is present
+			if( !selector ){ return engine.fn; }
+			// add selection var
 			engine.selection = [];
-      context = context || document;
-			
-      if( !selector ){
-        return engine.fn;
-      }
-
+			// check context
+			if( typeof(context) === "object" && context[0] !== undefined && context[0].nodeType ) {
+				context = context[0];
+			}else if( typeof(context) === "object" && context.nodeType ){
+				context = context;
+			}else if( typeof(context) === "string" ){
+				context = _(context)[0];
+			}else{
+				context = document;
+			}
+			// traverse DOM
       if ( typeof selector === "string" ){
         selector = selector.trim();
         var idx = selector.indexOf(' ');
