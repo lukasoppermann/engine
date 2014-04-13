@@ -153,9 +153,18 @@
 	
 	// addClass
 	engine.fn.addClass = function(classes){
-		// 	  this.forEach(function(el, i){
-		// 
-		// });
+		if( classes !== undefined && classes.trim().length > 0 ){
+      classes = classes.split(' ');			
+			this.forEach(function(el, i){
+        for (var c = classes.length; c--;){
+          if (el.classList){
+            el.classList.add(classes[c]);
+          }else{
+            el.className += ' ' + classes[c];
+          }
+        }
+			});
+		}
 		return this;
 	};
 	
