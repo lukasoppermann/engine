@@ -90,12 +90,13 @@
 			// traverse DOM
       if ( typeof selector === "string" ){
         selector = selector.trim();
-        var idx = selector.indexOf(' ');
+        var idx = selector.indexOf(' '),
+						idDot = selector.lastIndexOf('.');
         // get id
-        if( idx === -1 && selector[0] === '#'){
+        if( idx === -1 && selector[0] === '#' && idDot === -1){
 					engine.selection[0] = document.getElementById(selector.slice(1));
 				// get class	
-        } else if( idx === -1 && selector[0] === '.' ){
+        } else if( idx === -1 && selector[0] === '.' && idDot === 0){
           engine.selection = context.getElementsByClassName(selector.slice(1));
 				// else
 				}else{
