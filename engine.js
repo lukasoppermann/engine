@@ -137,7 +137,7 @@
 
 	// each loop through selectors
 	engine.fn.each = function( fn ){
-		if( typeof(fn) === 'function' ){
+		if( typeof(fn) === 'function' && this.length > 0){
 		  this.forEach(function(el, i){
 				fn.call(el,el, i);
 		  });
