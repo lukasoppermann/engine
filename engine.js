@@ -229,10 +229,13 @@
 	};
 	
 	// addEvent
-	engine.fn.on = function(event, eventHandler, opts){
+	engine.fn.on = function(event, eventHandler, time){
 		this.forEach(function(el, i){
 			// prepare fn and storage
-			var fn = eventHandler.bind(el);
+			var fn = function(f){
+				clearTimeout( f );
+				f = setTimeout(eventHandler.bind(el), (time !== undefined ? time : 10));
+			}
 			!('events' in el) ? el['events'] = [] : '' ;
 			!(event in el['events']) ? el['events'][event] = [] : '' ;
 			// add event to listener and storage
@@ -281,16 +284,23 @@
 		return this;
 	};
 	
-	// addClass
-	engine.fn.css = function(attr){
-    if ('getComputedStyle' in window)
-    {
-			return window.getComputedStyle(this[0], null).getPropertyValue(attr).replace(/^px+|px+$/g, '');
-    }
-    else if ('currentStyle' in window.element)
-    {
-			return this[0].currentStyle[attr].replace(/^px+|px+$/g, '');
-    }
+	// get and set css
+	engine.fn.css = function(attr, val){
+		if( val === undefined )
+		{
+	    if ('getComputedStyle' in window)
+	    {
+				return window.getComputedStyle(this[0], null).getPropertyValue(attr).replace(/^px+|px+$/g, '');
+	    }
+	    else if ('currentStyle' in window.element)
+	    {
+				return this[0].currentStyle[attr].replace(/^px+|px+$/g, '');
+	    }
+		}
+		else
+		{
+			this[0].style[attr] = val;
+		}
     // return properties
 		return this;
 	};
