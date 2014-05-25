@@ -55,8 +55,6 @@
       return this.replace(/^\s+|\s+$/g, '');
     };
   }
-	//
-	
   // selection engine
 	var instance = null;
 	function engine( selector, context ){
@@ -119,7 +117,8 @@
 			return engine.fn.chain();
 
     },
-		
+		// storage
+		storage: [],
 		// chain
 		chain: function(){
       // add fns to array
@@ -228,6 +227,66 @@
         }
 			});
 		}
+		return this;
+	};
+	
+	// addEvent
+	engine.fn.on = function(event, eventHandler, opts){
+		if( event !== undefined && eventHandler !== undefined ){
+			if( typeof(eventHandler) === 'function' )
+			{
+				if(!engine.fn.storage.hasOwnProperty('events'))
+				{
+					engine.fn.storage.events = {};
+					engine.fn.storage.events[event] = []; 
+				}
+				else if( !engine.fn.storage.events.hasOwnProperty(event) )
+				{
+					engine.fn.storage.events[event] = [];
+				}
+				var l = engine.fn.storage['events'][event].length;
+				engine.fn.storage['events'][event][l] = eventHandler;
+			}
+			this.forEach(function(el, i){
+				el.addEventListener(event, engine.fn.storage['events'][event][l].bind(el));
+			});
+		}
+		return this;
+	};
+	
+	// removeEvent
+	engine.fn.off = function(event, eventHandler){
+		if(event !== undefined)
+		{
+			if( eventHandler === undefined && engine.fn.storage.events !== undefined && engine.fn.storage.events[event] !== undefined )
+			{
+				this.forEach(function(el, i){
+					engine.fn.storage.events[event].forEach(function(ev, l){
+	 					el.removeEventListener(event, engine.fn.storage['events'][event][l].bind(el)); // does not remove due to .bind(el)
+	 				});
+				});
+			}
+			else
+			{
+				this.forEach(function(el, i){
+					el.removeEventListener(event, eventHandler);
+				});
+			}
+		}
+		return this;
+	};
+	
+	// addClass
+	engine.fn.css = function(attr){
+    if ('getComputedStyle' in window)
+    {
+			return window.getComputedStyle(this[0], null).getPropertyValue(attr).replace(/^px+|px+$/g, '');
+    }
+    else if ('currentStyle' in window.element)
+    {
+			return this[0].currentStyle[attr].replace(/^px+|px+$/g, '');
+    }
+    // return properties
 		return this;
 	};
 	
