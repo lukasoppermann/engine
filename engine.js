@@ -117,8 +117,6 @@
 			return engine.fn.chain();
 
     },
-		// storage
-		storage: [],
 		// chain
 		chain: function(){
       // add fns to array
@@ -232,25 +230,15 @@
 	
 	// addEvent
 	engine.fn.on = function(event, eventHandler, opts){
-		if( event !== undefined && eventHandler !== undefined ){
-			if( typeof(eventHandler) === 'function' )
-			{
-				if(!engine.fn.storage.hasOwnProperty('events'))
-				{
-					engine.fn.storage.events = {};
-					engine.fn.storage.events[event] = []; 
-				}
-				else if( !engine.fn.storage.events.hasOwnProperty(event) )
-				{
-					engine.fn.storage.events[event] = [];
-				}
-				var l = engine.fn.storage['events'][event].length;
-				engine.fn.storage['events'][event][l] = eventHandler;
-			}
-			this.forEach(function(el, i){
-				el.addEventListener(event, engine.fn.storage['events'][event][l].bind(el));
-			});
-		}
+		this.forEach(function(el, i){
+			// prepare fn and storage
+			var fn = eventHandler.bind(el);
+			!('events' in el) ? el['events'] = [] : '' ;
+			!(event in el['events']) ? el['events'][event] = [] : '' ;
+			// add event to listener and storage
+			el['events'][event].push(fn);
+			el.addEventListener(event, fn, false);
+		});
 		return this;
 	};
 	
@@ -258,20 +246,37 @@
 	engine.fn.off = function(event, eventHandler){
 		if(event !== undefined)
 		{
-			if( eventHandler === undefined && engine.fn.storage.events !== undefined && engine.fn.storage.events[event] !== undefined )
+			if( eventHandler !== undefined )
 			{
 				this.forEach(function(el, i){
-					engine.fn.storage.events[event].forEach(function(ev, l){
-	 					el.removeEventListener(event, engine.fn.storage['events'][event][l].bind(el)); // does not remove due to .bind(el)
-	 				});
+					el.removeEventListener(event, eventHandler, false);
 				});
 			}
 			else
 			{
 				this.forEach(function(el, i){
-					el.removeEventListener(event, eventHandler);
+					if( ('events' in el) && (event in el['events']) )
+					{
+						el['events'][event].forEach(function(ev, l){
+		 					el.removeEventListener(event, ev, false);
+		 				});
+					}
 				});
 			}
+		}
+		else
+		{
+			this.forEach(function(el, i){
+				if( 'events' in el )
+				{
+					for(event in el['events'])
+					{
+						el['events'][event].forEach(function(ev, l){
+		 					el.removeEventListener(event, ev, false);
+		 				});
+					}
+				}
+			});
 		}
 		return this;
 	};
