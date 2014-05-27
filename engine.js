@@ -64,7 +64,12 @@
 		return instance.init(selector, context);
   };
   // expose engine
-  window.engine = window._ = engine;
+	if ( typeof define === "function" && define.amd ) {
+    define(function() {
+			return engine;
+    });
+	}
+	else{ window.engine = window._ = engine; }
   // set prototype
   engine.fn = engine.prototype = {
     version: 0.1,
@@ -94,7 +99,7 @@
 					engine.selection[0] = document.getElementById(selector.slice(1));
 				// get class	
         } else if( selector[0] === '.' && singleSelector === true){
-          engine.selection = context.getElementsByClassName(selector.slice(1));
+          engine.selection = Array.prototype.slice.call(context.getElementsByClassName(selector.slice(1)),0);
 				// else
 				}else{
           selector = context.querySelectorAll(selector);
@@ -128,19 +133,6 @@
 			return engine.selection;
 		}
   };
-
-	// EXTENDING engine
-	// any of these can be deleted
-
-	// each loop through selectors
-	engine.fn.each = function( fn ){
-		if( typeof(fn) === 'function' && this.length > 0){
-		  this.forEach(function(el, i){
-				fn.call(el,el, i);
-		  });
-		}
-		return this;
-	};
 	
 	// parents
 	engine.fn.parents = function(selector){
@@ -166,143 +158,32 @@
 	engine.fn.children = function(selector, maxLvl){
 		engine.selection = [];
 	  this.forEach(function(el){
-      var children = el.children, level = 0,
+	      var children = el.children, level = 0,
 			findChild = function( children ){
-        if( children !== undefined && (maxLvl === undefined || maxLvl === false || maxLvl > level ) )
-        {
-          level++;
-          for(var i = 0; i < children.length; i++ ){
-            if(selector === undefined || selector === false || children[i].matches(selector)){
-              children[i].prototype = {
-                depth : level
-              };
+	        if( children !== undefined && (maxLvl === undefined || maxLvl === false || maxLvl > level ) )
+	        {
+	          level++;
+	          for(var i = 0; i < children.length; i++ ){
+	            if(selector === undefined || selector === false || children[i].matches(selector)){
+	              children[i].prototype = {
+	                depth : level
+	              };
 							// check if child is in array
 							if(engine.selection.indexOf(children[i]) === -1){
-              	engine.selection.push(children[i]);
+	              	engine.selection.push(children[i]);
 							}
-            }
-            findChild(children[i].children);
-          }
-          level--;
-        }else{
-          level--;
-          return;
-        }
-      };
-      findChild(children);
+	            }
+	            findChild(children[i].children);
+	          }
+	          level--;
+	        }else{
+	          level--;
+	          return;
+	        }
+	      };
+	      findChild(children);
 		});
 		return engine.fn.chain();
-	};
-	
-	// addClass
-	engine.fn.addClass = function(classes){
-		if( classes !== undefined && classes.trim().length > 0 ){
-      classes = classes.split(' ');			
-			this.forEach(function(el, i){
-        for (var c = classes.length; c--;){
-          if (el.classList){
-            el.classList.add(classes[c]);
-          }else{
-            el.className += ' ' + classes[c];
-          }
-        }
-			});
-		}
-		return this;
-	};
-	
-	// removeClass
-	engine.fn.removeClass = function(classes){
-		if( classes !== undefined && classes.trim().length > 0 ){
-      classes = classes.split(' ');			
-			this.forEach(function(el, i){
-        for (var c = classes.length; c--;){
-          if (el.classList){
-            el.classList.remove(classes[c]);
-          }else{
-						el.className = el.classes.replace(new RegExp('(^| )' + classes[c].join('|') + '( |$)', 'gi'), ' ');
-          }
-        }
-			});
-		}
-		return this;
-	};
-	
-	// addEvent
-	engine.fn.on = function(event, eventHandler, time){
-		this.forEach(function(el, i){
-			// prepare fn and storage
-			var fn = function(f){
-				clearTimeout( f );
-				f = setTimeout(eventHandler.bind(el), (time !== undefined ? time : 10));
-			}
-			!('events' in el) ? el['events'] = [] : '' ;
-			!(event in el['events']) ? el['events'][event] = [] : '' ;
-			// add event to listener and storage
-			el['events'][event].push(fn);
-			el.addEventListener(event, fn, false);
-		});
-		return this;
-	};
-	
-	// removeEvent
-	engine.fn.off = function(event, eventHandler){
-		if(event !== undefined)
-		{
-			if( eventHandler !== undefined )
-			{
-				this.forEach(function(el, i){
-					el.removeEventListener(event, eventHandler, false);
-				});
-			}
-			else
-			{
-				this.forEach(function(el, i){
-					if( ('events' in el) && (event in el['events']) )
-					{
-						el['events'][event].forEach(function(ev, l){
-		 					el.removeEventListener(event, ev, false);
-		 				});
-					}
-				});
-			}
-		}
-		else
-		{
-			this.forEach(function(el, i){
-				if( 'events' in el )
-				{
-					for(event in el['events'])
-					{
-						el['events'][event].forEach(function(ev, l){
-		 					el.removeEventListener(event, ev, false);
-		 				});
-					}
-				}
-			});
-		}
-		return this;
-	};
-	
-	// get and set css
-	engine.fn.css = function(attr, val){
-		if( val === undefined )
-		{
-	    if ('getComputedStyle' in window)
-	    {
-				return window.getComputedStyle(this[0], null).getPropertyValue(attr).replace(/^px+|px+$/g, '');
-	    }
-	    else if ('currentStyle' in window.element)
-	    {
-				return this[0].currentStyle[attr].replace(/^px+|px+$/g, '');
-	    }
-		}
-		else
-		{
-			this[0].style[attr] = val;
-		}
-    // return properties
-		return this;
 	};
 	
 }(window, document));
