@@ -52,7 +52,7 @@
 	else{ window.engine = window._ = engine; }
   // set prototype
   engine.fn = engine.prototype = {
-    version: 0.1,
+    version: 0.2,
     //init
     init: function(selector, context)
     {
