@@ -112,38 +112,5 @@
 			// return selection
 			return engine.selection;
 		}
-  };
-	
-	// children
-	engine.fn.children = function(selector, maxLvl){
-		engine.selection = [];
-	  this.forEach(function(el){
-	      var children = el.children, level = 0,
-			findChild = function( children ){
-	        if( children !== undefined && (maxLvl === undefined || maxLvl === false || maxLvl > level ) )
-	        {
-	          level++;
-	          for(var i = 0; i < children.length; i++ ){
-	            if(selector === undefined || selector === false || children[i].matches(selector)){
-	              children[i].prototype = {
-	                depth : level
-	              };
-							// check if child is in array
-							if(engine.selection.indexOf(children[i]) === -1){
-	              	engine.selection.push(children[i]);
-							}
-	            }
-	            findChild(children[i].children);
-	          }
-	          level--;
-	        }else{
-	          level--;
-	          return;
-	        }
-	      };
-	      findChild(children);
-		});
-		return engine.fn.chain();
-	};
-	
+  };	
 }(window, document));
