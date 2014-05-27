@@ -1,4 +1,10 @@
 (function(window, undefined){
+	// POLYFILLS
+  if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+      return this.replace(/^\s+|\s+$/g, '');
+    };
+  }
 	// Module: removeClass
 	var removeClass = function(classes){
 		if( classes !== undefined && classes.trim().length > 0 ){
