@@ -1,0 +1,25 @@
+{
+  "name": "engine",
+  "main": "engine.js",
+  "version": "0.2.0",
+  "homepage": "http://lukasoppermann.github.io/engine",
+  "authors": [
+    "Lukas Oppermann"
+  ],
+  "description": "HTML5 DOM selector engine",
+  "keywords": [
+    "dom",
+    "manipulation",
+    "selector",
+    "engine",
+    "engine"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
