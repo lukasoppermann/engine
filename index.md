@@ -4,7 +4,7 @@ layout: index
 
 
 # Engine
-Engine is a paste in place selector engine / wrapper facilitating modern js DOM selectors (with polyfill).
+Engine is a paste in place selector engine / wrapper facilitating modern js DOM selectors (with polyfill). 
 
 The code is deliberately kept small and only optimises selections lightly around using `getElementByID`, `getElementsByClass` and `querySelectorAll`. The strength of engine is to make it dead simple to extend it.
 
