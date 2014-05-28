@@ -24,7 +24,7 @@ _(node)
 As a return value you get an array of the DOM-Selection 
 
 ```javascript
-[<div class="class">DOM Element</div>]
+[ <div class="class">DOM Element</div> ]
 ```
 
 You can use engine with the few build in methods (if you did not delete them, which you can do if you do not use them) or you own extensions like this.
