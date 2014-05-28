@@ -4,9 +4,9 @@ layout: index
 
 
 # Engine
-Engine is a paste in place selector engine / wrapper facilitating modern js DOM selectors. 
+Engine is a paste in place selector engine / wrapper facilitating modern js DOM selectors (with polyfill).
 
-The code is deliberately kept small and only optimises selections lightly around using `getElementByID`, `getElementsByClass` and `querySelectorAll`. The strength of engine is to make it dead simple to extend it with new functionalities.
+The code is deliberately kept small and only optimises selections lightly around using `getElementByID`, `getElementsByClass` and `querySelectorAll`. The strength of engine is to make it dead simple to extend it.
 
 ## Use engine to select
 
@@ -23,13 +23,13 @@ _(node)
 
 As a return value you get an array of the DOM-Selection 
 
-```javascript
-[ <div class="class">DOM Element</div> ]
+```Javascript
+[<div class="class">DOM Element</div>]
 ```
 
 You can use engine with the few build in methods (if you did not delete them, which you can do if you do not use them) or you own extensions like this.
 
-```javascript
+```Javascript
 _('div').each(function(){ 
   // do something 
 }).yourMethod(variable);
@@ -52,23 +52,4 @@ engine.fn.each = function( fn ){
 	return engine.fn.chain(); // keep chain up
 };
 ```
-
-# Release History
-
-### 0.2
-- moved functions to subdir `fn`
-- added requires support
-- new functions
- - `parents` (get parents of selection)
- - `children` (get children of selection)
- - `on` (add eventListener)
- - `off` (remove eventListener)
- - `css` (get/set css attributes)
-
-### 0.1 Initial release
-- engine selector `_(selector)`
-- new functions
- - `each` (loops through selected items)
- - `addClass`
- - `removeClass`
  
