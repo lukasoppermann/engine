@@ -51,6 +51,7 @@
 	if ( typeof define === "function" && define.amd ) {		
 		define(["engine/engine"], function(engine){
 			engine.fn.children = children;
+			console.log(engine);
 			return engine;
 		});
 	}
