@@ -10,18 +10,22 @@
 	// set to strict in closure to not break other stuff
   'use strict';
 	// define function
-	var serialize = function(){
-		console.log(_(this).children('.block'));
-	};
+	// var serialize = function(){
+	// 	console.log(engine);
+	// 	// console.log(engine(this).children('.block'));
+	// };
 	// export module
 	if ( typeof define === "function" && define.amd ) {		
-		define(['engine/engine', 'engine/functions/children'], function(engine){
-			engine.fn.serialize = serialize;
+		define(["engine/engine", "engine/functions/children"], function(engine){
+			engine.fn.serialize =  function(){
+				console.log(engine(this).children('.block-content'));
+			};
+			//
 			return engine;
 		});
 	}
-	else{ 
-		engine.fn.serialize = serialize;
-	}
+	// else{ 
+	// 	engine.fn.serialize = serialize;
+	// }
 	
 }(window, document));
