@@ -90,12 +90,12 @@
       }
       // if a node is passed
       else if ( selector.nodeType ){
-        engine.fn[0] = selector;
+        engine.selection[0] = selector;
       }
       // if a nodelist is passed
       else if ( typeof(selector) === "object" && selector[0].nodeType ) {
         for (var i = 0; i < selector.length; i++ ) {
-          engine.fn[ i ] = selector[ i ];
+          engine.selection[ i ] = selector[ i ];
         }
       }
 			// keep chain going
@@ -106,7 +106,7 @@
 		chain: function(){
       // add fns to array
       for (var key in engine.fn) {
-        if (engine.fn.hasOwnProperty(key))
+        if (engine.fn.hasOwnProperty(key) && isNaN(key))
           engine.selection[key] = engine.fn[key];
       }
 			// return selection
