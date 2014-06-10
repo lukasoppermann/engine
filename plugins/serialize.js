@@ -18,7 +18,12 @@
 	if ( typeof define === "function" && define.amd ) {		
 		define(["engine/engine", "engine/functions/children"], function(engine){
 			engine.fn.serialize =  function(){
-				console.log(engine(this).children('.block-content'));
+				engine(this).children('.block-content');
+				console.log(engine.selection);
+				console.log(engine(this).children('.block-content')[0].prototype.parent);
+				console.log(engine(this).children('.block-content')[0].prototype.domParent);
+				console.log(engine(this).children('.block-content')[1].prototype.parent);
+				console.log(engine(this).children('.block-content')[1].prototype.domParent);
 			};
 			//
 			return engine;
