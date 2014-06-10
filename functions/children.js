@@ -23,22 +23,28 @@
 			engine.fn.children = function(selector, maxLvl){
 				engine.selection = [];
 			  this.forEach(function(el){
-					var children = el.children, level = 0,
-					findChild = function( children ){
+					var children = el.children, level = 0, p = undefined,
+					findChild = function( children, parent ){
 						if( children !== undefined && (maxLvl === undefined || maxLvl === false || maxLvl > level ) )
 						{
 		          level++;
 		          for(var i = 0; i < children.length; i++ ){
 								if(selector === undefined || selector === false || children[i].matches(selector)){
-									children[i].prototype = {
-		                depth : level
+		              children[i].prototype = {
+		              	depth: level
 		              };
+									if( parent )
+									{
+										children[i].prototype.parent = parent.parent;
+										children[i].prototype.domParent = parent.domParent;
+									}
+									p = children[i];
 									// check if child is in array
 									if(engine.selection.indexOf(children[i]) === -1){
 		              	engine.selection.push(children[i]);
 									}
 		            }
-		            findChild(children[i].children);
+		            findChild(children[i].children, {'parent':p,'domParent': children[i]});
 		          }
 		          level--;
 						}else{
@@ -46,7 +52,7 @@
 		          return;
 		        }
 		      };
-		      findChild(children);
+		      findChild(children, {'parent': undefined, 'domParent': el});
 				});
 				// return a chainable engine object
 				return engine.fn.chain();
