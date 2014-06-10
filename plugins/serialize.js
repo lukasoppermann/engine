@@ -17,13 +17,15 @@
 	// export module
 	if ( typeof define === "function" && define.amd ) {		
 		define(["engine/engine", "engine/functions/children"], function(engine){
-			engine.fn.serialize =  function(){
-				engine(this).children('.block-content');
-				console.log(engine.selection);
-				console.log(engine(this).children('.block-content')[0].prototype.parent);
-				console.log(engine(this).children('.block-content')[0].prototype.domParent);
-				console.log(engine(this).children('.block-content')[1].prototype.parent);
-				console.log(engine(this).children('.block-content')[1].prototype.domParent);
+			engine.fn.serialize =  function( opts ){
+				opts = _.extend({
+					'item': '.block',
+					'level': 0
+				}, opts);
+				
+				engine(this).children(opts.item, opts.level);
+				
+				return {};
 			};
 			//
 			return engine;
