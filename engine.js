@@ -39,9 +39,9 @@
 	var instance = null;
 	function engine( selector, context ){
 		if ( !instance ){
-    	instance = new engine.fn.init(selector, context);
+    	instance = new engine.fn.find(selector, context);
 		}
-		return instance.init(selector, context);
+		return instance.find(selector, context);
   };
   // expose engine
 	if ( typeof define === "function" && define.amd ) {
@@ -50,11 +50,45 @@
     });
 	}
 	else{ window.engine = window._ = engine; }
+	// version
+	engine.version = 0.2;
+	// extend 
+	engine.extend = function(out){
+	  out = out || {};
+	  for (var i = 1; i < arguments.length; i++) 
+		{
+	    var obj = arguments[i];
+	    if ( !obj ){
+	      continue;
+			}
+			for (var key in obj) {
+	      if (obj.hasOwnProperty(key)) {
+	        if (typeof obj[key] === 'object'){
+	          engine.extend(out[key], obj[key]);
+	        }
+					else
+					{
+	          out[key] = obj[key];
+					}
+	      }
+	    }
+	  }
+	  return out;
+	};
+	// chain
+	engine.chain = function(){
+    // add fns to array
+    for (var key in engine.fn) {
+      if (engine.fn.hasOwnProperty(key) && isNaN(key))
+        engine.selection[key] = engine.fn[key];
+    }
+		// return selection
+		return engine.selection;
+	};
   // set prototype
   engine.fn = engine.prototype = {
-    version: 0.2,
     //init
-    init: function(selector, context)
+    find: function(selector, context)
     {
 			// if no selector is present
 			if( !selector ){ return engine.fn; }
@@ -99,18 +133,8 @@
         }
       }
 			// keep chain going
-			return engine.fn.chain();
+			return engine.chain();
 
     },
-		// chain
-		chain: function(){
-      // add fns to array
-      for (var key in engine.fn) {
-        if (engine.fn.hasOwnProperty(key) && isNaN(key))
-          engine.selection[key] = engine.fn[key];
-      }
-			// return selection
-			return engine.selection;
-		}
   };	
 }(window, document));
