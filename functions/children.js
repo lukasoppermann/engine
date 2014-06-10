@@ -25,7 +25,7 @@
 			  this.forEach(function(el){
 					var children = el.children, level = 0, p = undefined,
 					findChild = function( children, parent ){
-						if( children !== undefined && (maxLvl === undefined || maxLvl === false || maxLvl > level ) )
+						if( children !== undefined && (maxLvl === undefined || maxLvl === 0 || maxLvl === false || maxLvl > level ) )
 						{
 		          level++;
 		          for(var i = 0; i < children.length; i++ ){
@@ -55,7 +55,7 @@
 		      findChild(children, {'parent': undefined, 'domParent': el});
 				});
 				// return a chainable engine object
-				return engine.fn.chain();
+				return engine.chain();
 			};
 			return engine;
 		});

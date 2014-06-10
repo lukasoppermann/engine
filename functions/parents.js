@@ -32,7 +32,7 @@
 			}
 		});
 		// return a chainable engine object
-		return engine.fn.chain();
+		return engine.chain();
 	};
 	// export module
 	if ( typeof define === "function" && define.amd ) {		
