@@ -23,15 +23,18 @@
 			engine.fn.children = function(selector, maxLvl){
 				engine.selection = [];
 			  this.forEach(function(el){
-					var children = el.children, level = 0, p = undefined,
+					var children = el.children, domLevel = level = 0, leveled = false, p = undefined,
 					findChild = function( children, parent ){
 						if( children !== undefined && (maxLvl === undefined || maxLvl === 0 || maxLvl === false || maxLvl > level ) )
 						{
-		          level++;
+		          domLevel++;
 		          for(var i = 0; i < children.length; i++ ){
 								if(selector === undefined || selector === false || children[i].matches(selector)){
+									level++;
+									leveled = true;
 		              children[i].prototype = {
-		              	depth: level
+		              	domLevel: domLevel,
+										level: level
 		              };
 									if( parent )
 									{
@@ -46,11 +49,15 @@
 		            }
 		            findChild(children[i].children, {'parent':p,'domParent': children[i]});
 		          }
-		          level--;
-						}else{
-		          level--;
-		          return;
-		        }
+						}
+						// level within selected elements
+						if(leveled === true){
+							p = p.prototype.parent;
+							level--;
+							leveled = false;
+						}
+						// level in actual dom structure
+	          domLevel--;
 		      };
 		      findChild(children, {'parent': undefined, 'domParent': el});
 				});
