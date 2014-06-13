@@ -1,12 +1,19 @@
-(function(window, undefined){
-	// POLYFILLS
-  if (!String.prototype.trim) {
-    String.prototype.trim = function () {
-      return this.replace(/^\s+|\s+$/g, '');
-    };
-  }
+// POLYFILLS
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, '');
+  };
+}
+// fallback for define if no amd is present
+if ( typeof define !== "function" || !define.amd ) {
+	var define = function(arr, fn){
+		fn.call(window, window.engine);
+	};
+}
+// export module
+define(["engine/engine"], function(engine){
 	// Module: addClass
-	var addClass = function(classes){
+	engine.fn.addClass = function(classes){
 		if( classes !== undefined && classes.trim().length > 0 ){
       classes = classes.split(' ');			
 			this.forEach(function(el, i){
@@ -21,14 +28,6 @@
 		}
 		return this;
 	};
-	// export module
-	if ( typeof define === "function" && define.amd ) {
-		define(["engine/engine"], function(engine){
-			engine.fn.addClass = addClass;
-			return engine;
-		});
-	}
-	else{ 
-		engine.fn.addClass = addClass;
-	}
-})(window);
+	//
+	return engine;
+});
