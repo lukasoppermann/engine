@@ -6,8 +6,6 @@
  * Copyright 2014, Lukas Oppermann
  * Released under the MIT license.
  */
-// set to strict in closure to not break other stuff
-'use strict';
 // fallback for define if no amd is present
 if ( typeof define !== "function" || !define.amd ) {
 	var define = function(arr, fn){
