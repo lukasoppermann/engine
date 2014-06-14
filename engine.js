@@ -6,7 +6,7 @@
  * Copyright 2014, Lukas Oppermann
  * Released under the MIT license.
  */
-(function( window, document, undefined ) {
+(function( window, document, define, undefined ) {
 	// set to strict in closure to not break other stuff
   'use strict';
 	// POLYFILLS
@@ -137,4 +137,4 @@
 
     },
   };	
-}(window, document));
+}(window, document, window.define));

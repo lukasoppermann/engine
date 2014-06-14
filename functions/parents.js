@@ -1,29 +1,22 @@
-// POLYFILLS
-if (window.Element){
-	(function(ElementPrototype) {
-		ElementPrototype.matches = ElementPrototype.matchesSelector =
-    ElementPrototype.matchesSelector ||
-		ElementPrototype.webkitMatchesSelector ||
-		ElementPrototype.mozMatchesSelector ||
-		ElementPrototype.msMatchesSelector ||
-		ElementPrototype.oMatchesSelector ||
-		function (selector) {
-      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
-			while (nodes[++i] && nodes[i] !== this);
-			return !!nodes[i];
-		};
-	})(window.Element.prototype);
-}	
-// fallback for define if no amd is present
-if ( typeof define !== "function" || !define.amd ) {
-	var define = function(arr, fn){
-		fn.call(window, window.engine);
-	};
-}
-// export module
-define(["engine/engine"], function(engine){
+(function(window, define, undefined){
+	// POLYFILLS
+	if (window.Element){
+		(function(ElementPrototype) {
+			ElementPrototype.matches = ElementPrototype.matchesSelector =
+	    ElementPrototype.matchesSelector ||
+			ElementPrototype.webkitMatchesSelector ||
+			ElementPrototype.mozMatchesSelector ||
+			ElementPrototype.msMatchesSelector ||
+			ElementPrototype.oMatchesSelector ||
+			function (selector) {
+	      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
+				while (nodes[++i] && nodes[i] !== this);
+				return !!nodes[i];
+			};
+		})(window.Element.prototype);
+	}
 	// Module: get parents of element	
-	engine.fn.parents = function(selector){
+	var parents = function(selector){
 		engine.selection = [];
 	  this.forEach(function(el, i){
 			el = el.parentNode;
@@ -40,6 +33,16 @@ define(["engine/engine"], function(engine){
 		});
 		// return a chainable engine object
 		return engine.chain();
-	};
-	return engine;
-});
+	};	
+	// export module
+	if ( typeof define === "function" && define.amd ) {
+		define(["engine/engine"], function(engine){
+			engine.fn.parents = parents;
+			return engine;
+		});
+	} 
+	else {
+		engine.fn.parents = parents;
+	}
+//	
+}(window, window.define));
