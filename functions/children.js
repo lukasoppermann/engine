@@ -1,29 +1,22 @@
-// POLYFILLS
-if (window.Element){
-	(function(ElementPrototype) {
-		ElementPrototype.matches = ElementPrototype.matchesSelector =
-    ElementPrototype.matchesSelector ||
-		ElementPrototype.webkitMatchesSelector ||
-		ElementPrototype.mozMatchesSelector ||
-		ElementPrototype.msMatchesSelector ||
-		ElementPrototype.oMatchesSelector ||
-		function (selector) {
-      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
-			while (nodes[++i] && nodes[i] !== this);
-			return !!nodes[i];
-		};
-	})(window.Element.prototype);
-}
-// fallback for define if no amd is present
-if ( typeof define !== "function" || !define.amd ) {
-	var define = function(arr, fn){
-		fn.call(window, window.engine);
-	};
-}
-// export module
-define(["engine/engine"], function(engine){
+(function(window, define, undefined){
+	// POLYFILLS
+	if (window.Element){
+		(function(ElementPrototype) {
+			ElementPrototype.matches = ElementPrototype.matchesSelector =
+	    ElementPrototype.matchesSelector ||
+			ElementPrototype.webkitMatchesSelector ||
+			ElementPrototype.mozMatchesSelector ||
+			ElementPrototype.msMatchesSelector ||
+			ElementPrototype.oMatchesSelector ||
+			function (selector) {
+	      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
+				while (nodes[++i] && nodes[i] !== this);
+				return !!nodes[i];
+			};
+		})(window.Element.prototype);
+	}
 	// Module children
-	engine.fn.children = function(selector, maxLvl){
+	var children = function(selector, maxLvl){
 		engine.selection = [];
 	  this.forEach(function(el){
 			var children = el.children, id = domLevel = level = 0, leveled = false, p = undefined,
@@ -69,5 +62,15 @@ define(["engine/engine"], function(engine){
 		// return a chainable engine object
 		return engine.chain();
 	};
-	return engine;
-});
+	// export module
+	if ( typeof define === "function" && define.amd ) {
+		define(["engine/engine"], function(engine){
+			engine.fn.children = children;
+			return engine;
+		});
+	} 
+	else {
+		engine.fn.children = children;
+	}
+//	
+}(window, window.define));

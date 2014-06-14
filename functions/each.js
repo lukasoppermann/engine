@@ -1,13 +1,6 @@
-// fallback for define if no amd is present
-if ( typeof define !== "function" || !define.amd ) {
-	var define = function(arr, fn){
-		fn.call(window, window.engine);
-	};
-}
-// export module
-define(["engine/engine"], function(engine){
+(function(define, undefined){
 	// Module: each - loops through selections
-	engine.fn.each = function( fn ){
+	var each = function( fn ){
 		if( typeof(fn) === 'function' && this.length > 0){
 		  this.forEach(function(el, i){
 				fn.call(el,el, i);
@@ -15,5 +8,15 @@ define(["engine/engine"], function(engine){
 		}
 		return this;
 	};
-	return engine;
-});
+	// export module
+	if ( typeof define === "function" && define.amd ) {
+		define(["engine/engine"], function(engine){
+			engine.fn.each = each;
+			return engine;
+		});
+	} 
+	else {
+		engine.fn.each = each;		
+	}
+//	
+}(window.define));

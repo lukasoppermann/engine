@@ -1,13 +1,6 @@
-// fallback for define if no amd is present
-if ( typeof define !== "function" || !define.amd ) {
-	var define = function(arr, fn){
-		fn.call(window, window.engine);
-	};
-}
-// export module
-define(["engine/engine"], function(engine){
+(function(window, define, undefined){
 	// Module: css getter and setter
-	engine.fn.css = function(attr, val){
+	var css = function(attr, val){
 		if( val === undefined )
 		{
 	    if ('getComputedStyle' in window)
@@ -26,5 +19,15 @@ define(["engine/engine"], function(engine){
     // return properties
 		return this;
 	};
-	return engine;
-});
+	// export module
+	if ( typeof define === "function" && define.amd ) {
+		define(["engine/engine"], function(engine){
+			engine.fn.css = css;
+			return engine;
+		});
+	} 
+	else {
+		engine.fn.css = css;
+	}
+//	
+}(window, window.define));

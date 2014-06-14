@@ -1,12 +1,6 @@
-// fallback for define if no amd is present
-if ( typeof define !== "function" || !define.amd ) {
-	var define = function(arr, fn){
-		fn.call(window, window.engine);
-	};
-}
-// removeEvent	
-define(["engine/engine"], function(engine){
-	engine.fn.off = function(event, eventHandler){
+(function(define, undefined){
+	// removeEvent	
+	var off = function(event, eventHandler){
 		if(event !== undefined)
 		{
 			if( eventHandler !== undefined )
@@ -43,5 +37,15 @@ define(["engine/engine"], function(engine){
 		}
 		return this;
 	};
-	return engine;
-});
+	// export module
+	if ( typeof define === "function" && define.amd ) {
+		define(["engine/engine"], function(engine){
+			engine.fn.off = off;
+			return engine;
+		});
+	}
+	else{
+		engine.fn.off = off;
+	}
+//	
+}(window.define));
