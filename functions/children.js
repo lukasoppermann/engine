@@ -20,7 +20,8 @@
 		engine.selection = [];
 	  this.forEach(function(el){
 			var children = el.children, id = domLevel = level = 0, leveled = false, p = undefined,
-			findChild = function( children, parent ){
+			findChild = function( children, parent )
+			{
 				if( children !== undefined && (maxLvl === undefined || maxLvl === 0 || maxLvl === false || maxLvl > level ) )
 				{
           domLevel++;
@@ -45,7 +46,7 @@
               	engine.selection.push(children[i]);
 							}
             }
-            findChild(children[i].children, {'parent':p, id:p.prototype.id,'domParent': children[i]});
+            findChild(children[i].children, {'parent':p, id:(!p ? undefined : p.prototype.id),'domParent': children[i]});
           }
 				}
 				// level within selected elements
