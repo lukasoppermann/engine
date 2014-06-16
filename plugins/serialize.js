@@ -30,6 +30,13 @@ define(["engine/engine", "engine/functions/children", "engine/functions/each"], 
 		opts = _.extend({
 			'item': '.block',
 			'level': 0,
+			// items to be removed from json
+			'removeItems': [
+				'parent',
+				'parentId',
+				'id',
+				'level'
+			],
 			// serialize fn
 			'serialize': function( item, obj ){
 				return {};
@@ -44,13 +51,19 @@ define(["engine/engine", "engine/functions/children", "engine/functions/each"], 
 			    var parent = m[m[id].parentId];
 			    if (parent) {
 			    	parent.children = parent.children || [];
-						parent.children.push(m[id]); // add reference to item
+						parent.children.push(opts.removeFromItem(m[id])); // add reference to item
 			    } else { // root
-						content.push(m[id]);
+						content.push(opts.removeFromItem(m[id]));
 			    }
 				}
 				m = [];
 				return content;
+			},
+			'removeFromItem': function( item ){
+				opts.removeItems.forEach(function(key){
+					delete item[key];
+				});
+				return item;
 			}
 		}, opts);
 		
@@ -61,8 +74,8 @@ define(["engine/engine", "engine/functions/children", "engine/functions/each"], 
 			var item = _.extend({
 					level: this.prototype.level,
 					id: this.prototype.id,
-					parent: this.prototype.parent,
-					parentId: this.prototype.parentId
+					parentId: this.prototype.parentId,
+					parent: this.prototype.parent
 				}, 
 				// get all data- attributes
 				getDataAttributes(this)
@@ -73,7 +86,7 @@ define(["engine/engine", "engine/functions/children", "engine/functions/each"], 
 			map[item.id] = item;
 		});
 		// return result
-		return opts.result(map);
+		return JSON.stringify(opts.result(map));
 	};
 	//
 	return engine;
