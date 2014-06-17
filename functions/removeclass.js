@@ -5,31 +5,31 @@
 	    return this.replace(/^\s+|\s+$/g, '');
 	  };
 	}
-	// Module: removeClass
-	var removeClass = function(classes){
-		if( classes !== undefined && classes.trim().length > 0 ){
-			classes = classes.split(' ');			
-			this.forEach(function(el, i){
-				for (var c = classes.length; c--;){
-					if (el.classList){
-						el.classList.remove(classes[c]);
-					}else{
-						el.className = el.classes.replace(new RegExp('(^| )' + classes[c].join('|') + '( |$)', 'gi'), ' ');
-					}
-				}
-			});
-		}
-		return this;
-	};
+	// fallback for define
+	if ( typeof define !== "function" || !define.amd ) {
+		define = function(arr, fn){
+			fn.call(window, window.engine);
+		};
+	}
 	// export module
-	if ( typeof define === "function" && define.amd ) {
-		define(["engine/engine"], function(engine){
-			engine.fn.removeClass = removeClass;
-			return engine;
-		});
-	}
-	else {
-		engine.fn.removeClass = removeClass;
-	}
+	define(["engine/engine"], function(engine){
+		// Module: removeClass
+		engine.fn.removeClass = function(classes){
+			if( classes !== undefined && classes.trim().length > 0 ){
+				classes = classes.split(' ');			
+				this.forEach(function(el, i){
+					for (var c = classes.length; c--;){
+						if (el.classList){
+							el.classList.remove(classes[c]);
+						}else{
+							el.className = el.classes.replace(new RegExp('(^| )' + classes[c].join('|') + '( |$)', 'gi'), ' ');
+						}
+					}
+				});
+			}
+			return this;
+		};
+		return engine;
+	});
 	//	
 }(window.define));
