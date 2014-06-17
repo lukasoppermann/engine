@@ -17,6 +17,7 @@
 	}
 	// Module children
 	var children = function(selector, maxLvl){
+		console.log('test');
 		engine.selection = [];
 	  this.forEach(function(el){
 			var children = el.children, id = domLevel = level = 0, leveled = false, p = undefined,

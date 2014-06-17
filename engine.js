@@ -85,11 +85,11 @@
 		// return selection
 		return engine.selection;
 	};
-  // set prototype
-  engine.fn = engine.prototype = {
-    //init
-    find: function(selector, context)
-    {
+	// set prototype
+	engine.fn = engine.prototype = {
+		//init
+		find: function(selector, context)
+		{
 			// if no selector is present
 			if( !selector ){ return engine.fn; }
 			// add selection var
