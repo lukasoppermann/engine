@@ -27,44 +27,48 @@
 		engine.fn.children = function(selector, maxLvl){
 			engine.selection = [];
 		  this.forEach(function(el){
-				var children = el.children, id = domLevel = level = 0, leveled = false, p = undefined,
-				findChild = function( children, parent )
+				var children = el.children, id = domLevel = level = 0, p = undefined,
+				findChild = function( children, theparatent )
 				{
+					var leveled = false;
 					if( children !== undefined && (maxLvl === undefined || maxLvl === 0 || maxLvl === false || maxLvl > level ) )
 					{
 	          domLevel++;
 	          for(var i = 0; i < children.length; i++ ){
 							if(selector === undefined || selector === false || children[i].matches(selector)){
-								level++;
-								leveled = true;
+								if( leveled == false )
+								{
+									level++;
+									leveled = true;
+								}
 	              children[i].prototype = {
 	              	domLevel: domLevel,
 									level: level,
 									id: id++
 	              };
-								if( parent )
+								if( theparatent )
 								{
-									children[i].prototype.parent = parent.parent;
-									children[i].prototype.parentId = parent.id;
-									children[i].prototype.domParent = parent.domParent;
+									children[i].prototype.parent = theparatent.parent;
+									children[i].prototype.parentId = theparatent.id;
+									children[i].prototype.domParent = theparatent.domParent;
 								}
 								p = children[i];
 								// check if child is in array
 								if(engine.selection.indexOf(children[i]) === -1){
-	              	engine.selection.push(children[i]);
+									engine.selection.push(children[i]);
 								}
-	            }
-	            findChild(children[i].children, {'parent':p, id:(!p ? undefined : p.prototype.id),'domParent': children[i]});
-	          }
+							}
+							findChild(children[i].children, {'parent':p, 'id':(!p ? undefined : p.prototype.id),'domParent': children[i]});
+						}
+						// level within selected elements
+						if(leveled === true){
+							p = p.prototype.parent;
+							level--;
+							leveled = false;
+						}
+						// level in actual dom structure
+		        domLevel--;
 					}
-					// level within selected elements
-					if(leveled === true){
-						p = p.prototype.parent;
-						level--;
-						leveled = false;
-					}
-					// level in actual dom structure
-	        domLevel--;
 	      };
 	      findChild(children, {'parent': undefined, 'domParent': el});
 			});

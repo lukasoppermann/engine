@@ -44,7 +44,7 @@ define(["engine/engine", "engine/functions/children", "engine/functions/each"], 
 			// result fn
 			'result' : function( map ){
 				var m = [];
-				m = map.slice();
+				m = JSON.parse(JSON.stringify(map));
 				var content = [];
 				for (var id in m) 
 				{
@@ -74,8 +74,7 @@ define(["engine/engine", "engine/functions/children", "engine/functions/each"], 
 			var item = _.extend({
 					level: this.prototype.level,
 					id: this.prototype.id,
-					parentId: this.prototype.parentId,
-					parent: this.prototype.parent
+					parentId: this.prototype.parentId
 				}, 
 				// get all data- attributes
 				getDataAttributes(this)
