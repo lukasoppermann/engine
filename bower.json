@@ -1,7 +1,7 @@
 {
   "name": "engine",
   "main": "engine.js",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "homepage": "http://lukasoppermann.github.io/engine",
   "authors": [
     "Lukas Oppermann"
