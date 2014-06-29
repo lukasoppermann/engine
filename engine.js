@@ -127,7 +127,7 @@
         engine.selection[0] = selector;
       }
       // if a nodelist is passed
-      else if ( typeof(selector) === "object" && selector[0].nodeType ) {
+      else if ( typeof(selector) === "object" && selector[0] !== undefined && selector[0].nodeType ) {
         for (var i = 0; i < selector.length; i++ ) {
           engine.selection[ i ] = selector[ i ];
         }
