@@ -8,7 +8,7 @@
 	// export module
 	define(["engine/engine"], function(engine){
 		// Module: addEvent
-		engine.fn.on = function(event, eventHandler, target, time){
+		engine.fn.on = function(eventName, eventHandler, target, time){
 			// set time
 			time = (typeof target === "number" ? target : (time !== undefined ? time : 10));
 			this.forEach(function(el, i){
@@ -23,10 +23,10 @@
 					f = setTimeout(eventHandler.bind(el, e), time);
 				}
 				!('events' in el) ? el['events'] = [] : '' ;
-				!(event in el['events']) ? el['events'][event] = [] : '' ;
+				!(eventName in el['events']) ? el['events'][eventName] = [] : '' ;
 				// add event to listener and storage
-				el['events'][event].push(fn);
-				el.addEventListener(event, fn, false);
+				el['events'][eventName].push(fn);
+				el.addEventListener(eventName, fn, false);
 			});
 			return this;
 		};
