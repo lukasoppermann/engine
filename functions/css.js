@@ -22,7 +22,9 @@
 			}
 			else
 			{
-				this[0].style[attr] = val;
+				this.forEach(function(el, i){
+					el.style[attr] = val;
+				});
 			}
 	    // return properties
 			return this;
