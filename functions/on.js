@@ -25,10 +25,13 @@
 						f = setTimeout(eventHandler.bind(el, e), time);
 					}
 					!('events' in el) ? el['events'] = [] : '' ;
-					!(eventName in el['events']) ? el['events'][eventName] = [] : '' ;
-					// add event to listener and storage
-					el['events'][eventName].push(fn);
-					el.addEventListener(eventName, fn, false);
+					
+					eventName.split(" ").forEach(function(name){
+						!(name in el['events']) ? el['events'][name] = [] : '' ;
+						// add event to listener and storage
+						el['events'][name].push(fn);
+						el.addEventListener(name, fn, false);
+					});
 				});
 				
 			}
