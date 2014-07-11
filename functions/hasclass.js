@@ -1,10 +1,4 @@
 (function(define, undefined){
-	// POLYFILLS
-	if (!String.prototype.trim) {
-	  String.prototype.trim = function () {
-	    return this.replace(/^\s+|\s+$/g, '');
-	  };
-	}
 	// fallback for define
 	if ( typeof define !== "function" || !define.amd ) {
 		define = function(arr, fn){
