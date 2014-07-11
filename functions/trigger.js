@@ -20,7 +20,6 @@
 			return this.fireEvent("on" + eventObject.type, eventObject);
 		};
 	}
-	
 	// fallback for define
 	if ( typeof define !== "function" || !define.amd ) {
 		define = function(arr, fn){
