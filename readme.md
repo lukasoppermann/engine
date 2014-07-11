@@ -7,7 +7,7 @@ The code is deliberately kept small and only optimises selections lightly around
 IE9+
 
 ### Not shimmed functions
-**trim** (engine.js, addClass, hasClass, removeClass, replaceClass)
+**trim** (engine.js, addClass, hasClass, removeClass, replaceClass)  
 *Shim:* [ES5 Shim](https://github.com/es-shims/es5-shim)
 
 ## Use engine to select
