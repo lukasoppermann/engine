@@ -41,7 +41,7 @@
 				 					el.removeEventListener(event, ev, false);
 				 				});
 							}
-						}
+						});
 					}
 				});
 			}
