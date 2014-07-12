@@ -6,7 +6,7 @@
 		};
 	}
 	// export module
-	define(["dev/engine/engine"], function(engine){
+	define(["engine/engine"], function(engine){
 		// Module: create
 		engine.create = function(htmlString, string){
 			
