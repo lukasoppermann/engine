@@ -23,8 +23,8 @@
 	}
 	// export module
 	define(["engine/engine"], function(engine){
-		// Module: get parents of element	
-		engine.fn.parents = function(selector){
+		// Module: get parent of element	
+		engine.fn.parent = function(selector){
 			engine.selection = [];
 		  this.forEach(function(el, i){
 				el = el.parentNode;
