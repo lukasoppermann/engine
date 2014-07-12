@@ -3,6 +3,13 @@ Engine is a paste in place selector engine / wrapper facilitating modern js DOM 
 
 The code is deliberately kept small and only optimises selections lightly around using `getElementByID`, `getElementsByClass` and `querySelectorAll`. The strength of engine is to make it dead simple to extend it.
 
+## Browser support
+IE9+
+
+### Not shimmed functions
+**trim** (engine.js, addClass, hasClass, removeClass, replaceClass)  
+*Shim:* [ES5 Shim](https://github.com/es-shims/es5-shim)
+
 ## Use engine to select
 
 You can use `engine(selector)` or the shortcut `_(selector)` to get a selection of DOM-Elements. 
