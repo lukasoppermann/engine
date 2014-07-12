@@ -34,12 +34,14 @@
 				this.forEach(function(el, i){
 					if( 'events' in el )
 					{
-						for(event in el['events'])
-						{
-							el['events'][event].forEach(function(ev, l){
-			 					el.removeEventListener(event, ev, false);
-			 				});
-						}
+						event.split(" ").forEach(function(name){
+							for(event in el['events'])
+							{
+								el['events'][event].forEach(function(ev, l){
+				 					el.removeEventListener(event, ev, false);
+				 				});
+							}
+						});
 					}
 				});
 			}
