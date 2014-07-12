@@ -51,7 +51,7 @@
 	}
 	else{ window.engine = window._ = engine; }
 	// version
-	engine.version = '0.2.7';
+	engine.version = '0.3.0';
 	// extend 
 	engine.extend = function(out){
 	  out = out || {};
