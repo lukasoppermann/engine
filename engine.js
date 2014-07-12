@@ -136,5 +136,14 @@
 			return engine.chain();
 
     },
+		// add
+		add: function(items)
+		{
+			var sel = this;
+			items.forEach(function(item){
+				sel.push(item);
+			});
+			return sel;
+		}
   };	
 }(window, document, window.define));
