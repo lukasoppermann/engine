@@ -14,10 +14,7 @@
 			if(this.length > 0 && this[0] != null){
 
 				this.forEach(function(el, i){
-					// console.log(target);
 					// target = ( target === undefined || typeof target === "number" ? el : engine.fn.find(target, engine.fn.find(el))[0] );
-					// console.log(target);
-					// console.log('***');
 					// prepare fn and storage
 					var fn = function(e, f){
 						e = event || window.event;
