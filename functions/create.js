@@ -65,7 +65,7 @@
 				}
 				else
 				{
-					el.appendChild(element);
+					el.parentNode.appendChild(element);
 				}
 			});
 			return this;
@@ -82,6 +82,7 @@
 			}
 			
 			this.forEach(function(el, i){
+				console.log(el);
 				el.parentNode.insertBefore(element, el);
 			});
 			return this;
