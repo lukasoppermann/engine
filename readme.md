@@ -10,6 +10,9 @@ IE9+
 **trim** (engine.js, addClass, hasClass, removeClass, replaceClass)  
 *Shim:* [ES5 Shim](https://github.com/es-shims/es5-shim)
 
+**isArray** (css)  
+*Shim:* [ES5 Shim](https://github.com/es-shims/es5-shim)
+
 ## Use engine to select
 
 You can use `engine(selector)` or the shortcut `_(selector)` to get a selection of DOM-Elements. 

@@ -11,7 +11,7 @@
 		engine.fn.css = function(attr, val){
 			if( attr !== undefined )
 			{
-				if( val === undefined )
+				if( val === undefined && typeof(attr) !== 'object' )
 				{
 			    if ('getComputedStyle' in window)
 			    {
@@ -24,9 +24,20 @@
 				}
 				else
 				{
-					this.forEach(function(el, i){
-						el.style[attr] = val;
-					});
+					if( typeof(attr) === 'object' )
+					{
+						for(var key in attr) {
+							this.forEach(function(el, i){
+								el.style[key] = attr[key];
+							});
+						}
+					}
+					else
+					{
+						this.forEach(function(el, i){
+							el.style[attr] = val;
+						});
+					}
 				}
 			}
 	    // return properties
