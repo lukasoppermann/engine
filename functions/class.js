@@ -29,7 +29,7 @@
 		
 		// Module: removeClass
 		engine.fn.removeClass = function(classes){
-			if( classes !== undefined && classes.trim().length > 0 ){
+			if( classes !== undefined && classes.trim().length > 0 && Array.isArray(this)){
 				classes = classes.split(' ');
 				this.forEach(function(el, i){
 					for (var c = classes.length; c--;){

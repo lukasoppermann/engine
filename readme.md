@@ -10,7 +10,7 @@ IE9+
 **trim** (engine.js, addClass, hasClass, removeClass, replaceClass)  
 *Shim:* [ES5 Shim](https://github.com/es-shims/es5-shim)
 
-**isArray** (css)  
+**isArray** (css, class)  
 *Shim:* [ES5 Shim](https://github.com/es-shims/es5-shim)
 
 ## Use engine to select

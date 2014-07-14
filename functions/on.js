@@ -20,7 +20,7 @@
 				this.forEach(function(el, i){
 					
 					// prepare fn and storage
-					var fn = function(e, f){
+					var fn = function(e){
 						// set target
 						t = ( target !== undefined && typeof target !== "number" ? engine.fn.find(target, engine.fn.find(el))  : false );
 						// only if target fits selection, execute event
@@ -29,8 +29,8 @@
 							// if a delay is set (debounce)
 							if( time > 0 )
 							{
-								clearTimeout( f );
-								f = setTimeout(eventHandler.bind(e.target, e), time);
+								clearTimeout( this.f );
+								this.f = setTimeout(eventHandler.bind(e.target, e), time);
 							
 								// if no delay is set, call immediatly
 							} else {
