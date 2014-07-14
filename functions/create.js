@@ -66,7 +66,6 @@
 		// Module: before
 		engine.fn.append = function( element ){
 			this.forEach(function(el, i){
-				console.log(el);
 				el.appendChild(engine.create(element));
 			});
 			return this;

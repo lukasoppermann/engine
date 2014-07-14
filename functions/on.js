@@ -21,8 +21,13 @@
 					// prepare fn and storage
 					var fn = function(e, f){
 						e = event || window.event;
-						clearTimeout( f );
-						f = setTimeout(eventHandler.bind(el, e), time);
+						if( time > 0 )
+						{
+							clearTimeout( f );
+							f = setTimeout(eventHandler.bind(el, e), time);
+						}else{
+							eventHandler.call(el, e);
+						}
 					}
 					!('events' in el) ? el['events'] = [] : '' ;
 					
