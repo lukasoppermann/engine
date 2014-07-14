@@ -52,8 +52,13 @@
 			if( typeof(element) === "string" ){
 				element = engine.create(element);
 			}
+			else if( Array.isArray(element) )
+			{
+				element = element[0];
+			}
 			
 			this.forEach(function(el, i){
+				
 				if( el.nextElementSibling !== undefined )
 				{
 					el.parentNode.insertBefore(element, el.nextElementSibling);
@@ -68,13 +73,15 @@
 
 		// Module: before
 		engine.fn.before = function( element ){
-			
 			if( typeof(element) === "string" ){
 				element = engine.create(element);
 			}
+			else if( Array.isArray(element) )
+			{
+				element = element[0];
+			}
 			
 			this.forEach(function(el, i){
-				
 				el.parentNode.insertBefore(element, el);
 			});
 			return this;
@@ -86,11 +93,24 @@
 			if( typeof(element) === "string" ){
 				element = engine.create(element);
 			}
+			else if( Array.isArray(element) )
+			{
+				element = element[0];
+			}
 			
 			this.forEach(function(el, i){
 				el.appendChild(element);
 			});
 			return this;
+		}
+		
+		// Module: remove
+		engine.fn.remove = function( ){
+			
+			this.forEach(function(el, i){
+				el.parentNode.removeChild(el);
+			});
+			
 		}
 		
 		return engine;
