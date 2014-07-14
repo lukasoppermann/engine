@@ -48,25 +48,47 @@
 		
 		// Module: after
 		engine.fn.after = function( element ){
-
+			
+			if( typeof(element) === "string" ){
+				element = engine.create(element);
+			}
+			
 			this.forEach(function(el, i){
-				el.insertAdjacentHTML('afterend', engine.create(element, true));
+				if( el.nextElementSibling !== undefined )
+				{
+					el.parentNode.insertBefore(element, el.nextElementSibling);
+				}
+				else
+				{
+					el.appendChild(element);
+				}
 			});
 			return this;
 		}
 
 		// Module: before
 		engine.fn.before = function( element ){
+			
+			if( typeof(element) === "string" ){
+				element = engine.create(element);
+			}
+			
 			this.forEach(function(el, i){
-				el.insertAdjacentHTML('beforebegin', engine.create(element, true));
+				
+				el.parentNode.insertBefore(element, el);
 			});
 			return this;
 		}
 
 		// Module: before
 		engine.fn.append = function( element ){
+			
+			if( typeof(element) === "string" ){
+				element = engine.create(element);
+			}
+			
 			this.forEach(function(el, i){
-				el.appendChild(engine.create(element));
+				el.appendChild(element);
 			});
 			return this;
 		}
