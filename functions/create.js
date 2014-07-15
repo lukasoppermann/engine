@@ -82,7 +82,6 @@
 			}
 			
 			this.forEach(function(el, i){
-				console.log(el);
 				el.parentNode.insertBefore(element, el);
 			});
 			return this;
