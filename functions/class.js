@@ -72,7 +72,6 @@
 			return has;
 		};
 		
-		
 		// Module: replaceClass
 		engine.fn.replaceClass = function(regex, replace){
 			if( regex !== undefined && regex.trim().length > 0 ){

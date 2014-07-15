@@ -35,6 +35,21 @@
 	    return document.querySelectorAll(classNames);
 	  };
 	}
+	if (window.Element){
+		(function(ElementPrototype) {
+			ElementPrototype.matches = ElementPrototype.matchesSelector =
+	    ElementPrototype.matchesSelector ||
+			ElementPrototype.webkitMatchesSelector ||
+			ElementPrototype.mozMatchesSelector ||
+			ElementPrototype.msMatchesSelector ||
+			ElementPrototype.oMatchesSelector ||
+			function (selector) {
+	      var nodes = (this.parentNode || this.document).querySelectorAll(selector), i = -1;
+				while (nodes[++i] && nodes[i] !== this);
+				return !!nodes[i];
+			};
+		})(window.Element.prototype);
+	}
   // selection engine
 	var instance = null;
 	function engine( selector, context ){
@@ -96,7 +111,12 @@
 			engine.selection = [];
 			// check context
 			if( typeof(context) === "object" && context[0] !== undefined && context[0].nodeType ) {
-				context = context[0];
+				context.forEach(function(element){
+					if(element.matches(selector)){
+						engine.selection.push(element);
+					}
+				});
+				return engine.chain();
 			}else if( typeof(context) === "object" && context.nodeType ){
 				context = context;
 			}else if( typeof(context) === "string" ){
@@ -136,13 +156,36 @@
 			return engine.chain();
 
     },
-		// add
+		// add to selection
 		add: function(items)
 		{
+			// current selection
 			var sel = this;
+			
+			if( typeof(items) === 'string' || (typeof(items) === 'object' && items.nodeType) ){
+				items = engine.fn.find(items);
+			}
+			
 			items.forEach(function(item){
 				sel.push(item);
 			});
+			return sel;
+		},
+		// remove to selection
+		not: function(items)
+		{
+			// current selection
+			var sel = this;
+			
+			if( typeof(items) === 'string' || (typeof(items) === 'object' && context.nodeType) ){
+				items = engine.fn.find(items, sel);
+			}
+			
+			items.forEach(function(item){
+				var index = sel.indexOf(item);
+				sel.splice(index, 1);
+			});
+			
 			return sel;
 		}
   };	
