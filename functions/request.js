@@ -58,15 +58,21 @@
 		};
 
 		engine.request.success = function(fn){
-			engine.request.events['success'] = fn;
+			if( typeof(fn) !== undefined){
+				engine.request.events['success'] = fn;
+			}
 			return engine.request;
 		};
 		engine.request.error = function(fn){
-			engine.request.events['error'] = fn;
+			if( typeof(fn) !== undefined){
+				engine.request.events['error'] = fn;
+			}
 			return engine.request;
 		};
 		engine.request.fail = function(fn){
-			engine.request.events['failed'] = fn;
+			if( typeof(fn) !== undefined){
+				engine.request.events['failed'] = fn;
+			}
 			return engine.request;
 		};
 		
