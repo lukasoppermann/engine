@@ -18,6 +18,13 @@
 			catch (e) { }
 			return false;
 		}
+		// functions to add events
+		engine.request.events = {
+			success: function(){},
+			error: function(){},
+			fail: function(){}
+		};
+		
 		// Module: ajax
 		engine.request = function(url, data, method){
 			method = (method !== undefined) ? method : ( ( data !== undefined ) ? 'POST' : 'GET' );
@@ -49,12 +56,7 @@
 			// return request for chainability
 			return engine.request;
 		};
-		// functions to add events
-		engine.request.events = {
-			success: function(){},
-			error: function(){},
-			fail: function(){}
-		};
+
 		engine.request.success = function(fn){
 			engine.request.events['success'] = fn;
 			return engine.request;
